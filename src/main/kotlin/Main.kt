@@ -9,6 +9,7 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.PrintWriter
+import java.lang.Exception
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -19,6 +20,7 @@ class Main {
     private val config: ProgramConfig
     private val userAuth: UserAuth
     private val mutex: NetworkMutex
+    private var useMutex = true
 
     init {
         config = ProgramConfig(File(dir, "sync-config.cfg"))
@@ -38,9 +40,14 @@ class Main {
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            print("다른 서버가 열려있는지 알 수 없습니다. 그래도 강제로 여시겠습니까? (y/n)")
+            println()
+            print("다른 서버가 열려있는지 알 수 없습니다. 그래도 강제로 여시겠습니까? (y/n): ")
             BufferedReader(InputStreamReader(System.`in`)).use {
-                return it.readLine().trim() == "y"
+                val forceStart = it.readLine().trim() == "y"
+                if (forceStart) {
+                    useMutex = false
+                }
+                return forceStart
             }
         }
         return true
@@ -68,36 +75,55 @@ class Main {
     }
 
     fun run() {
+        println("다른 서버가 열려있는지 확인중...")
         if (!checkLock()) {
             return
         }
 
-        findRemote()
-        git.checkoutBranch(config.branch)
-
-        println("GIT 서버와 파일 동기화 중...")
-        git.pull()
-        println("동기화가 완료되었습니다. 이제 서버를 시작합니다!!")
-
         val startTime = LocalDateTime.now()
+        try {
+            if (useMutex) {
+                mutex.lock()
+            }
 
-        // running...
+            println("Git 초기화중...")
+            findRemote()
+            git.checkoutBranch(config.branch)
 
-        val endTime = LocalDateTime.now()
-        val endTimeString = endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        val durationString = formatDuration(Duration.between(startTime, endTime))
+            println("GIT 서버와 파일 동기화 중...")
+            git.pull()
+            println("동기화가 완료되었습니다. 이제 서버를 시작합니다!!")
 
-        println("변경사항들을 저장합니다... 저장중에는 절대 종료하지마세요!!")
+            // running...
+            for (i in 1..10) {
+                println("Server Running... $i")
+                Thread.sleep(1000)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            println("에러가 발생해서 서버를 중단합니다.")
+        } finally {
+            val endTime = LocalDateTime.now()
+            val endTimeString = endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val durationString = formatDuration(Duration.between(startTime, endTime))
 
-        git.add(".")
-        val changes = git.countChanges()
-        if (changes > 0) {
-            println("변경된 파일: ${changes}개")
-            git.commit("$endTimeString (Playing time: $durationString)")
-            git.push()
-            println("저장완료!")
-        } else {
-            println("변경된 파일이 없으므로 저장하지않습니다.")
+            println("변경사항들을 저장합니다... 저장중에는 절대 종료하지마세요!!")
+
+            git.add(".")
+            val changes = git.countChanges()
+            if (changes > 0) {
+                println("변경된 파일: ${changes}개")
+                git.commit("$endTimeString (Playing time: $durationString)")
+                git.push()
+                println("저장완료!")
+            } else {
+                println("변경된 파일이 없으므로 저장하지않습니다.")
+            }
+
+            if (useMutex) {
+                mutex.unlock()
+            }
+            println("종료작업 완료!")
         }
     }
 }

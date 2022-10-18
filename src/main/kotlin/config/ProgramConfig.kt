@@ -12,6 +12,7 @@ class ProgramConfig(file: File) {
     val remoteUrl: String
     val branch: String
     val serverHost: String
+    val runCmd: String
 
     init {
         val properties = Properties()
@@ -26,6 +27,7 @@ class ProgramConfig(file: File) {
         remoteUrl = getPropertyOrThrow(properties, "remoteUrl")
         branch = getPropertyOrThrow(properties, "branch")
         serverHost = getPropertyOrThrow(properties, "serverHost")
+        runCmd = getPropertyOrThrow(properties, "runCmd")
     }
 
     private fun getPropertyOrThrow(properties: Properties, key: String): String {
