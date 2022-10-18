@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1bcae48-78d7-42a8-8252-bea3466eb1a7" name="Changes" comment="feat: Git 기능들 구현">
-      <change afterPath="$PROJECT_DIR$/test.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d1bcae48-78d7-42a8-8252-bea3466eb1a7" name="Changes" comment="feat: Network Mutex 구현">
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/config/ProgramConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/config/ProgramConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/mutex/NetworkMutex.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/mutex/NetworkMutex.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sync-config.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/sync-config.cfg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +86,7 @@
       <updated>1666092477620</updated>
       <workItem from="1666092479475" duration="67000" />
       <workItem from="1666092555839" duration="211000" />
-      <workItem from="1666092781503" duration="14625000" />
+      <workItem from="1666092781503" duration="15136000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1666093074196</created>
@@ -107,7 +102,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666103955217</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: Network Mutex 구현">
+      <created>1666111671162</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666111671162</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +129,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="feat: Git 기능들 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Git 기능들 구현" />
+    <MESSAGE value="feat: Network Mutex 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Network Mutex 구현" />
   </component>
 </project>

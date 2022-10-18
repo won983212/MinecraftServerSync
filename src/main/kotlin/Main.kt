@@ -29,7 +29,7 @@ class Main {
 
         git = GitExec(userAuth)
         git.setProgressMonitor(TextProgressMonitor(PrintWriter(System.out)))
-        git.open(File("C:\\Users\\psvm\\Desktop\\새 폴더"))
+        git.open(dir)
     }
 
     private fun checkLock(): Boolean {
@@ -94,10 +94,12 @@ class Main {
             git.pull()
             println("동기화가 완료되었습니다. 이제 서버를 시작합니다!!")
 
-            // running...
-            for (i in 1..10) {
-                println("Server Running... $i")
-                Thread.sleep(1000)
+            val process = Runtime.getRuntime().exec(config.runCmd)
+            BufferedReader(InputStreamReader(process.inputStream)).use { br ->
+                var buffer: String?
+                while ((br.readLine().also { buffer = it }) != null) {
+                    println(buffer)
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
