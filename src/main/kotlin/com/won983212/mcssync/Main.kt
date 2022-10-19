@@ -1,8 +1,10 @@
-import config.ProgramConfig
-import git.GitExec
-import git.GitExecException
-import git.UserAuth
-import mutex.NetworkMutex
+package com.won983212.mcssync
+
+import com.won983212.mcssync.config.ProgramConfig
+import com.won983212.mcssync.git.GitExec
+import com.won983212.mcssync.git.GitExecException
+import com.won983212.mcssync.git.UserAuth
+import com.won983212.mcssync.mutex.NetworkMutex
 import org.eclipse.jgit.lib.TextProgressMonitor
 import java.io.BufferedReader
 import java.io.File
@@ -13,6 +15,7 @@ import java.lang.Exception
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Scanner
 
 class Main {
     private val dir = File(".")
@@ -53,12 +56,6 @@ class Main {
         return true
     }
 
-    private fun findRemote() {
-        val origin: String = git.findRemote(config.remoteUrl)
-            ?: throw GitExecException("Remote is not matched in config. (in config: ${config.remoteUrl})")
-        git.setRemote(origin)
-    }
-
     private fun toTwoDigit(digit: Long): String {
         return if (digit < 10) {
             "0$digit"
@@ -80,48 +77,57 @@ class Main {
             return
         }
 
-        val startTime = LocalDateTime.now()
         try {
+            val startTime = LocalDateTime.now()
             if (useMutex) {
                 mutex.lock()
             }
 
             println("Git 초기화중...")
-            findRemote()
+            if (!git.findRemote("origin")) {
+                throw GitExecException("Can't find origin remote")
+            }
             git.checkoutBranch(config.branch)
 
             println("GIT 서버와 파일 동기화 중...")
             git.pull()
             println("동기화가 완료되었습니다. 이제 서버를 시작합니다!!")
 
-            val process = Runtime.getRuntime().exec(config.runCmd)
-            BufferedReader(InputStreamReader(process.inputStream)).use { br ->
-                var buffer: String?
-                while ((br.readLine().also { buffer = it }) != null) {
-                    println(buffer)
+            try {
+                val builder = ProcessBuilder(config.runCmd)
+                builder.redirectErrorStream(true)
+                builder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                builder.redirectInput(ProcessBuilder.Redirect.INHERIT)
+
+                val process = builder.start()
+                process.waitFor()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                if (e !is InterruptedException) {
+                    println("에러가 발생해서 서버를 중단합니다.")
+                }
+            } finally {
+                val endTime = LocalDateTime.now()
+                val endTimeString = endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                val durationString = formatDuration(Duration.between(startTime, endTime))
+
+                println("변경사항들을 저장합니다... 저장중에는 절대 종료하지마세요!!")
+
+                git.add(".")
+                val changes = git.countChanges()
+                if (changes > 0) {
+                    println("변경된 파일: ${changes}개")
+                    git.commit("$endTimeString (Playing time: $durationString)")
+                    git.push()
+                    println("저장완료!")
+                } else {
+                    println("변경된 파일이 없으므로 저장하지않습니다.")
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            println("에러가 발생해서 서버를 중단합니다.")
+            println("에러가 발생해서 서버를 시작할 수 없습니다.")
         } finally {
-            val endTime = LocalDateTime.now()
-            val endTimeString = endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            val durationString = formatDuration(Duration.between(startTime, endTime))
-
-            println("변경사항들을 저장합니다... 저장중에는 절대 종료하지마세요!!")
-
-            git.add(".")
-            val changes = git.countChanges()
-            if (changes > 0) {
-                println("변경된 파일: ${changes}개")
-                git.commit("$endTimeString (Playing time: $durationString)")
-                git.push()
-                println("저장완료!")
-            } else {
-                println("변경된 파일이 없으므로 저장하지않습니다.")
-            }
-
             if (useMutex) {
                 mutex.unlock()
             }

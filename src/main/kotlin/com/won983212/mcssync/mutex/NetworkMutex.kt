@@ -1,11 +1,8 @@
-package mutex
+package com.won983212.mcssync.mutex
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URI
-import java.net.URL
-import java.nio.file.Path
-import kotlin.io.path.pathString
 
 class NetworkMutex(mutexUrl: String) {
 

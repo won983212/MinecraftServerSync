@@ -1,4 +1,4 @@
-package git
+package com.won983212.mcssync.git
 
 import org.eclipse.jgit.api.CreateBranchCommand
 import org.eclipse.jgit.api.Git
@@ -13,23 +13,18 @@ import java.io.File
 class GitExec(private val userAuth: UserAuth) {
     private val cp: CredentialsProvider = UsernamePasswordCredentialsProvider(userAuth.userId, userAuth.userPass)
     private var gitContext: Git? = null
-    private var remote: String = "origin"
     private var progressMonitor: ProgressMonitor? = null
 
     fun open(dir: File) {
         gitContext = try {
             Git.open(dir)
         } catch (e: RepositoryNotFoundException) {
-            throw GitExecException("Can't find git repository.")
+            throw GitExecException("Can't find com.won983212.mcssync.git repository.")
         }
     }
 
     fun setProgressMonitor(progressMonitor: ProgressMonitor) {
         this.progressMonitor = progressMonitor
-    }
-
-    fun setRemote(remote: String) {
-        this.remote = remote
     }
 
     fun checkoutBranch(branch: String) {
@@ -41,22 +36,22 @@ class GitExec(private val userAuth: UserAuth) {
     }
 
     private fun requireGit(): Git {
-        return gitContext ?: throw GitExecException("You must open git directory before use it.")
+        return gitContext ?: throw GitExecException("You must open com.won983212.mcssync.git directory before use it.")
     }
 
-    fun findRemote(url: String): String? {
+    fun findRemote(url: String): Boolean {
         val command = requireGit().remoteList()
         for (ent in command.call()) {
-            if (ent.urIs.contains(URIish(url))) {
-                return ent.name
+            if (ent.name == url) {
+                return true
             }
         }
-        return null
+        return false
     }
 
     fun push() {
         requireGit().push()
-            .setRemote(remote)
+            .setRemote("origin")
             .setCredentialsProvider(cp)
             .setProgressMonitor(progressMonitor)
             .call()
@@ -82,7 +77,7 @@ class GitExec(private val userAuth: UserAuth) {
 
     fun pull() {
         requireGit().pull()
-            .setRemote(remote)
+            .setRemote("origin")
             .setProgressMonitor(progressMonitor)
             .setCredentialsProvider(cp)
             .call()

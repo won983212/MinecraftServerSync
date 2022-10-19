@@ -1,4 +1,4 @@
-package git
+package com.won983212.mcssync.git
 
 data class UserAuth(
     val userId: String,
