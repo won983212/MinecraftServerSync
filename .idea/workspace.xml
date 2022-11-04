@@ -4,18 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1bcae48-78d7-42a8-8252-bea3466eb1a7" name="Changes" comment="feat: Network Mutex 구현">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="d1bcae48-78d7-42a8-8252-bea3466eb1a7" name="Changes" comment="feat: 초기 기획 기능 완성">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/Logger.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/syncer/git/GitSynchronizer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/syncer/watcher/FileWatcher.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/syncer/watcher/RealtimeSynchronizer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/syncer/watcher/WatcherException.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/kotlin/WatcherTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/config/ConfigParseException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/config/ConfigParseException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/config/ProgramConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/config/ProgramConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/git/GitExec.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/git/GitExec.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/git/GitExecException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/git/GitExecException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/git/UserAuth.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/git/UserAuth.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/mutex/NetworkMutex.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/mutex/NetworkMutex.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/config/ProgramConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/config/ProgramConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/git/GitExec.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/git/GitExecException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/won983212/mcssync/git/UserAuth.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,8 +74,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="Class" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -95,9 +98,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/psvm/IdeaProjects/MinecraftServerSync/META-INF/MANIFEST.MF",
+    "last_opened_file_path": "C:/Users/psvm/Desktop/Programming/CocoaInput/forge",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
@@ -113,10 +116,11 @@
       <recent name="" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.won983212.mcssync.syncer.watcher" />
       <recent name="mutex" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MinecraftServerSync [shadowJar]">
+  <component name="RunManager" selected="Gradle.WatcherTest.test">
     <configuration name="MinecraftServerSync [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -180,7 +184,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Tests in 'MinecraftServerSync'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="WatcherTest.test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -192,6 +196,8 @@
         <option name="taskNames">
           <list>
             <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;WatcherTest.test&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -210,19 +216,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Gradle.WatcherTest.test" />
       <item itemvalue="Gradle.MinecraftServerSync [shadowJar]" />
       <item itemvalue="Gradle.MinecraftServerSync [clean]" />
       <item itemvalue="Gradle.MinecraftServerSync [jar]" />
-      <item itemvalue="Gradle.Tests in 'MinecraftServerSync'" />
       <item itemvalue="Kotlin.MainKt" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.WatcherTest.test" />
         <item itemvalue="Gradle.MinecraftServerSync [shadowJar]" />
         <item itemvalue="Gradle.MinecraftServerSync [jar]" />
         <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Gradle.MinecraftServerSync [clean]" />
-        <item itemvalue="Gradle.Tests in 'MinecraftServerSync'" />
       </list>
     </recent_temporary>
   </component>
@@ -237,7 +243,11 @@
       <workItem from="1666092479475" duration="67000" />
       <workItem from="1666092555839" duration="211000" />
       <workItem from="1666092781503" duration="17789000" />
-      <workItem from="1666146949873" duration="3591000" />
+      <workItem from="1666146949873" duration="4117000" />
+      <workItem from="1666367080659" duration="21000" />
+      <workItem from="1666457265237" duration="5000" />
+      <workItem from="1666458045949" duration="24000" />
+      <workItem from="1667556126539" duration="3836000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1666093074196</created>
@@ -260,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666111671162</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: 초기 기획 기능 완성">
+      <created>1666151279110</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666151279110</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,7 +298,8 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="feat: Git 기능들 구현" />
     <MESSAGE value="feat: Network Mutex 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Network Mutex 구현" />
+    <MESSAGE value="feat: 초기 기획 기능 완성" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 초기 기획 기능 완성" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

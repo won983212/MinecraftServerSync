@@ -13,6 +13,9 @@ repositories {
 
 dependencies {
     implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'io.github.microutils:kotlin-logging-jvm:2.0.11'
+
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
